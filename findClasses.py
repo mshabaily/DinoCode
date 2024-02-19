@@ -10,5 +10,7 @@
 import re
 
 def findClasses(code : str):
-    classes = re.findall("^def.*(?:\n|$)", code)
+    pattern = re.compile("""put magic regex here""")
+    classes = pattern.finditer(code)
+
     return classes
