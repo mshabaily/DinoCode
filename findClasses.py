@@ -9,11 +9,6 @@
 
 import re
 
-code = input()
-print (findClasses(code))
-
 def findClasses(code : str):
-
-    classes = re.findall("^class.*(?:\n|$)")
-   
+    classes = re.findall("^def.*(?:\n|$)", code)
     return classes
