@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+import json
 
 # Create dictionary to store preferences
 preferences_states = {}
@@ -11,31 +12,44 @@ def save_preferences():
     preferences_states['Option 3'] = checkbox3_var.get()
     preferences_states['Slider'] = slider_var.get()
 
+    # Save preferences to a JSON file
+    with open('preferences.json', 'w') as file:
+        json.dump(preferences_states, file)
+
     print(preferences_states)
 
-def update_slider_label(*args):
+def update_slider_label(*args): # *args accept any number of arguments and ignore them cos we don't need them 
+    #as we get the slider value from the slider_var global var
     #Update the label text by changing the slider_label variable to "Slider: {the current slider value}"
     slider_label.config(text=f"Slider: {slider_var.get()}")
 
 def create_preferences_page():
-    global checkbox1_var, checkbox2_var, checkbox3_var, slider_var, slider_label  # slider_var is the IntVar for the slider and slider_label is the label for the slider which is updated in update_slider_label function above
-    preferences_window = tk.Toplevel() # Create a new top level window (aka a pop-up window seperete from the main window, can change this to be part of main window if needed??)
+    global checkbox1_var, checkbox2_var, checkbox3_var, slider_var, slider_label 
+    # slider_var is the IntVar for the slider and slider_label is the 
+    # label for the slider which is updated in update_slider_label function above
+
+    preferences_window = tk.Toplevel()  # Create a new top level window (aka a pop-up window seperete from the main window
+    # can change this to be part of main window if needed??)
     preferences_window.title("Preferences")
+
+    # Load preferences from preferences.json file and store in dictionary
+    with open('preferences.json', 'r') as file:
+        preferences_states = json.load(file)
 
     #Create frame to hold checkboxes
     checkboxes_frame = ttk.Frame(preferences_window, padding="20")
     checkboxes_frame.pack()
 
     #Create da checkboxes with boolean vars - true=ticked false=not ticked
-    checkbox1_var = tk.BooleanVar()
+    checkbox1_var = tk.BooleanVar(value=preferences_states['Option 1'])
     checkbox1 = ttk.Checkbutton(checkboxes_frame, text="Option 1", variable=checkbox1_var)
     checkbox1.pack()
 
-    checkbox2_var = tk.BooleanVar()
+    checkbox2_var = tk.BooleanVar(value=preferences_states['Option 2'])
     checkbox2 = ttk.Checkbutton(checkboxes_frame, text="Option 2", variable=checkbox2_var)
     checkbox2.pack()
 
-    checkbox3_var = tk.BooleanVar()
+    checkbox3_var = tk.BooleanVar(value=preferences_states['Option 3'])
     checkbox3 = ttk.Checkbutton(checkboxes_frame, text="Option 3", variable=checkbox3_var)
     checkbox3.pack()
 
@@ -44,11 +58,11 @@ def create_preferences_page():
     slider_frame.pack()
 
     #Create da label for da slider
-    slider_label = ttk.Label(slider_frame, text="Slider: 0")
+    slider_label = ttk.Label(slider_frame, text=f"Slider: {preferences_states['Slider']}")
     slider_label.pack(side="left")
 
     #Create da slider
-    slider_var = tk.IntVar()
+    slider_var = tk.IntVar(value=preferences_states['Slider'])
     slider = ttk.Scale(slider_frame, from_=0, to=100, variable=slider_var, command=update_slider_label)
     slider.pack(side="left")
 
