@@ -8,6 +8,9 @@ class EasyObject():
         return self.winfo_screenheight()
     def width(self):
         return self.winfo_screenwidth()
+    def clear(self):
+        for child in self.winfo_children():
+            child.destroy()
 
 # New "Easy" objects can be made by extending both the root object, and EasyObject
 class EasyWindow(Tk, EasyObject):
@@ -15,3 +18,11 @@ class EasyWindow(Tk, EasyObject):
 
 class EasyFrame(Frame, EasyObject):
     pass
+
+class Screen(EasyFrame):
+    def load(self, screen, *args, **kwargs):
+        pass
+
+class File():
+    title : str
+    code : str

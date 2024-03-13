@@ -1,7 +1,8 @@
 from tkinter import Button, Frame, Text
 from LogTools import logger
+from Objects import Screen
 
-class CodingScreen(Frame):
+class CodingScreen(Screen):
 
     entryField : Text
     text : str
@@ -35,4 +36,4 @@ class CodingScreen(Frame):
         self.saveButton.place(x = 0, y = 0)
 
     def save(self):
-        logger.log(self.text)
+        self.winfo_toplevel().currentFile.text = self.text
