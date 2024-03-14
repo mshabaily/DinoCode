@@ -1,0 +1,18 @@
+[
+    {
+        "name": "Light",
+        "settings": {
+            "Background-color": "#FFFFFF",
+            "Font-color": "#000000",
+            "Border-color": "HEXCODEHERE"
+        }
+    },
+    {
+        "name": "Dark",
+        "settings": {
+            "Background-color": "#000000",
+            "Font-color": "#FFFFFF",
+            "Border-color": "HEXCODEHERE"
+        }
+    }
+]
