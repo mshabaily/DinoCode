@@ -25,6 +25,7 @@ class Window(EasyWindow):
         # They are later redefined with attributes in the appropriate "draw" functions
         self.navBar = EasyFrame()
         self.mainBox = EasyFrame()
+
         self.currentFile = File()
 
     # This function takes any screen with a defined load() function and opens it on the window
@@ -42,23 +43,27 @@ class Window(EasyWindow):
         finally:
             screen.pack()
 
+    # This function is called with the current Screen, drawing the nav bar onto it
     def drawNavbar(self,screen):
         navBarWidth = self.width()
         navBarHeight = self.height() / 10
+
         logger.log("drawing navbar... width = ", navBarWidth, " height = ", navBarHeight)
         self.navBar = EasyFrame(screen, width = navBarWidth, height = navBarHeight)
+
         self.navBar.config(background = "#4caf50")
 
-        loadDiagramScreen = lambda: self.load(DiagramScreen, self.currentFile)
+        loadDiagramScreen = lambda: self.load(DiagramScreen, self.currentFile.code)
         loadCodingScreen = lambda: self.load(CodingScreen)
 
         diagramScreenLink = Button(text = "Diagrams", command = loadDiagramScreen)
-        diagramScreenLink.pack(anchor="w")
+        diagramScreenLink.place(x = 0, y = 0)
         codingScreenLink = Button(text="Coding", command = loadCodingScreen)
-        codingScreenLink.pack(anchor="w")
+        codingScreenLink.place(x = 100, y = 0)
 
         self.navBar.pack(anchor = "n")
 
+    # This function is called with the current Screen, drawing the nav bar onto it
     def drawMainBox(self,screen):
         boxWidth = int(self.width() * 0.9)
         boxHeight = int(self.height() * 0.9)
@@ -66,6 +71,5 @@ class Window(EasyWindow):
         self.mainBox = EasyFrame(screen, width = boxWidth, height = boxHeight)
         self.mainBox.config(background = "gray", border = 0)
         self.mainBox.pack(anchor = "center", expand = True, pady = 50)
-
 
 mainWindow = Window(title = "DinoCode", width = 1900, height = 1200)
